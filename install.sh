@@ -16,7 +16,8 @@ if [ "$(uname -s)" != "Darwin" ]; then
 fi
 
 # Download URL
-DOWNLOAD_URL="https://github.com/$REPO/releases/latest/download/devkat-0.1.0-macos.tar.gz"
+# Get latest release download URL
+DOWNLOAD_URL=$(curl -fsSL "https://api.github.com/repos/$REPO/releases/latest" | grep "browser_download_url.*macos" | cut -d '"' -f 4)
 
 # Create temp dir
 TMP_DIR=$(mktemp -d)
