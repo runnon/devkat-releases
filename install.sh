@@ -52,17 +52,10 @@ esac
 
 echo "  ✓ Installed"
 echo ""
-
-# Login
-echo "  Sign in with your devkat account:"
+echo "  Now run:"
 echo ""
-"$INSTALL_DIR/$BINARY" --login
-
-# Install daemon
+echo "    devkat-push --login"
+echo "    devkat-push --install"
 echo ""
-"$INSTALL_DIR/$BINARY" --install
-
-echo ""
-echo "  ✓ Done. Sessions will sync automatically."
-echo "    Run 'devkat-push --status' anytime to check."
+echo "  That's it. Sessions sync automatically after setup."
 echo ""
