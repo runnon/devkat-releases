@@ -5,16 +5,17 @@ REPO="runnon/devkat-releases"
 BINARY="devkat-push"
 INSTALL_DIR="${HOME}/.local/bin"
 
-echo "devkat — installing $BINARY..."
+echo ""
+echo "  devkat — session tracking for AI coding tools"
 echo ""
 
 # Check macOS
 if [ "$(uname -s)" != "Darwin" ]; then
-    echo "Error: devkat-push currently only supports macOS."
+    echo "  Error: devkat currently only supports macOS."
     exit 1
 fi
 
-# Get latest release URL
+# Download URL
 DOWNLOAD_URL="https://github.com/$REPO/releases/latest/download/devkat-0.1.0-macos.tar.gz"
 
 # Create temp dir
@@ -33,29 +34,35 @@ mkdir -p "$INSTALL_DIR"
 mv "$TMP_DIR/$BINARY" "$INSTALL_DIR/$BINARY"
 chmod +x "$INSTALL_DIR/$BINARY"
 
-# Check if INSTALL_DIR is in PATH
+# Add to PATH for this session
+export PATH="$INSTALL_DIR:$PATH"
+
+# Persist PATH if needed
 case ":$PATH:" in
     *":$INSTALL_DIR:"*) ;;
     *)
-        echo "  Adding $INSTALL_DIR to your PATH..."
         SHELL_NAME=$(basename "$SHELL")
         if [ "$SHELL_NAME" = "zsh" ]; then
             echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> "$HOME/.zshrc"
         elif [ "$SHELL_NAME" = "bash" ]; then
             echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> "$HOME/.bashrc"
         fi
-        export PATH="$INSTALL_DIR:$PATH"
         ;;
 esac
 
+echo "  ✓ Installed"
 echo ""
-echo "  ✓ Installed $BINARY to $INSTALL_DIR/$BINARY"
+
+# Login
+echo "  Sign in with your devkat account:"
 echo ""
-echo "  Next steps:"
+"$INSTALL_DIR/$BINARY" --login
+
+# Install daemon
 echo ""
-echo "    1. Sign in:        devkat-push --login"
-echo "    2. Enable daemon:  devkat-push --install"
-echo "    3. Check status:   devkat-push --status"
+"$INSTALL_DIR/$BINARY" --install
+
 echo ""
-echo "  Sessions from Claude Code, Codex, and Cursor will sync automatically."
+echo "  ✓ Done. Sessions will sync automatically."
+echo "    Run 'devkat-push --status' anytime to check."
 echo ""
