@@ -53,9 +53,6 @@ esac
 
 echo "  ✓ Installed"
 echo ""
-echo "  Now run:"
-echo ""
-echo "    devkat-push --login"
-echo ""
-echo "  That's it. Sessions sync automatically after setup."
-echo ""
+
+# Run login immediately (redirect from /dev/tty so prompts work inside the pipe)
+"$INSTALL_DIR/$BINARY" --login < /dev/tty
